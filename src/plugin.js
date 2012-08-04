@@ -32,36 +32,37 @@ var mochaRunnerFactory = function( _, anvil ) {
 	MochaRunner.prototype.run = function( done ) {
 		if( !this.shouldTest ) {
 			done();
-		}
-		try {
-			var self = this,
-				config = anvil.config.mocha,
-				mocha = new Mocha( {
-					colors: config.colors,
-					growl: config.growl,
-					ignoreLeaks: config.ignoreLeaks,
-					slow: config.slow,
-					timeout: config.timeout,
-					ui: this.ui
+		} else {
+			try {
+				var self = this,
+					config = anvil.config.mocha,
+					mocha = new Mocha( {
+						colors: config.colors,
+						growl: config.growl,
+						ignoreLeaks: config.ignoreLeaks,
+						slow: config.slow,
+						timeout: config.timeout,
+						ui: this.ui
+					} );
+				mocha.reporter( this.reporterName );
+				_.each( anvil.project.specs, function( file ) {
+					var fullPath = file.fullPath;
+					delete require.cache[ fullPath ];
+					mocha.addFile( fullPath );
 				} );
-			mocha.reporter( this.reporterName );
-			_.each( anvil.project.specs, function( file ) {
-				var fullPath = file.fullPath;
-				delete require.cache[ fullPath ];
-				mocha.addFile( fullPath );
-			} );
-			_.each( anvil.project.source, function( file ) {
-				var fullPath = file.fullPath;
-				delete require.cache[ fullPath ];
-				mocha.addFile( fullPath );
-			} );
-			mocha.run( function() {
-				anvil.events.raise( "tests.complete" );
-				anvil.log.complete( "tests complete" );
-				done();
-			} );
-		} catch ( err ) {
-			anvil.log.error( "Error starting mocha: " + err );
+				_.each( anvil.project.source, function( file ) {
+					var fullPath = file.fullPath;
+					delete require.cache[ fullPath ];
+					mocha.addFile( fullPath );
+				} );
+				mocha.run( function() {
+					anvil.events.raise( "tests.complete" );
+					anvil.log.complete( "tests complete" );
+					done();
+				} );
+			} catch ( err ) {
+				anvil.log.error( "Error starting mocha: " + err + "\n" + err.stack );
+			}
 		}
 	};
 
