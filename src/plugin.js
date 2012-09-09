@@ -62,6 +62,8 @@ var mochaRunnerFactory = function( _, anvil ) {
 				} );
 			} catch ( err ) {
 				anvil.log.error( "Error starting mocha: " + err + "\n" + err.stack );
+				anvil.events.raise( "tests.complete" );
+				done();
 			}
 		}
 	};
