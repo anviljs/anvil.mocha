@@ -2,7 +2,7 @@
   "author": "Alex Robson <alex@sharplearningcurve.com> (http://sharplearningcurve.com)",
   "name": "anvil.mocha",
   "description": "Mocha test runner for anvil.js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": {
     "type": "git",
     "url": "git://github.com/arobson/anvil.mocha.git"
@@ -13,5 +13,8 @@
   "main": "./lib/plugin.js",
   "dependencies": { "mocha": "~1.3.0" },
   "devDependencies": { "anvil.js": "~0.8.0" },
-  "optionalDependencies": {}
+  "optionalDependencies": {},
+  "requiredPlugins": [
+    "anvil.http"
+  ]
 }
