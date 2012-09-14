@@ -53,7 +53,6 @@ var mochaRunnerFactory = function( _, anvil ) {
 				_.each( anvil.project.source, function( file ) {
 					var fullPath = file.fullPath;
 					delete require.cache[ fullPath ];
-					mocha.addFile( fullPath );
 				} );
 				mocha.run( function() {
 					anvil.events.raise( "tests.complete" );
