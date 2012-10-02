@@ -1,3 +1,4 @@
+var path = require( "path" );
 var Mocha = require( "mocha" );
 
 var mochaRunnerFactory = function( _, anvil ) {
@@ -50,8 +51,10 @@ var mochaRunnerFactory = function( _, anvil ) {
 					delete require.cache[ fullPath ];
 					mocha.addFile( fullPath );
 				} );
-				_.each( anvil.project.source, function( file ) {
-					var fullPath = file.fullPath;
+				_.each( anvil.project.files, function( file ) {
+					var fullPath = file.fullPath,
+						relativeSegment = path.relative( anvil.config.spec, fullPath ),
+						relativePath = path.join( "/", relativeSegment );
 					delete require.cache[ fullPath ];
 				} );
 				mocha.run( function() {
