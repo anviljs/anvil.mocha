@@ -55,13 +55,13 @@ var mochaRunnerFactory = function( _, anvil ) {
 						delete require.cache[ fullPath ];
 					} );
 					mocha.run( function() {
-						self.raise( "tests.complete" );
+						self.emit( "tests.complete" );
 						anvil.log.complete( "tests complete" );
 						done();
 					} );
 				} catch ( err ) {
 					anvil.log.error( "Error starting mocha: " + err + "\n" + err.stack );
-					self.raise( "tests.complete" );
+					self.emit( "tests.complete" );
 					done();
 				}
 			}
