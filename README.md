@@ -1,6 +1,6 @@
-## Anvil Mocha Plugin
+## Anvil Mocha Extension
 
-This plugin requires anvil.js version 0.8.* or greater.
+This plugin requires anvil.js version 0.9.* or greater.
 
 ## Installation
 

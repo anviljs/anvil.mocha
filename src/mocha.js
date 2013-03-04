@@ -1,5 +1,5 @@
 var path = require( "path" );
-var Mocha = require( "mocha" );
+var Mocha;
 
 var mochaRunnerFactory = function( _, anvil ) {
 
@@ -31,6 +31,9 @@ var mochaRunnerFactory = function( _, anvil ) {
 			if( !this.shouldTest ) {
 				done();
 			} else {
+				if( !Mocha ) {
+					Mocha = require( "mocha" );
+				}
 				try {
 					var self = this,
 						config = this.config,
@@ -55,13 +58,13 @@ var mochaRunnerFactory = function( _, anvil ) {
 						delete require.cache[ fullPath ];
 					} );
 					mocha.run( function() {
-						self.raise( "tests.complete" );
+						self.emit( "tests.complete" );
 						anvil.log.complete( "tests complete" );
 						done();
 					} );
 				} catch ( err ) {
 					anvil.log.error( "Error starting mocha: " + err + "\n" + err.stack );
-					self.raise( "tests.complete" );
+					self.emit( "tests.complete" );
 					done();
 				}
 			}
